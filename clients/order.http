@@ -1,0 +1,5 @@
+### 상점의 주문 조회
+GET http://localhost:40001/apis/orders?storeId=1
+
+### 주문 상세 정보
+GET http://localhost:40001/apis/orders/7

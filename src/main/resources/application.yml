@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    username: app
+    password: app123!@#
+    url: "jdbc:mysql://localhost:3306/food_delivery?useSSL=false&allowPublicKeyRetrieval=true"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  devtools:
+    livereload:
+      enabled: false
+
+server:
+  port: 40001
+  role-name: delivery-order-api
