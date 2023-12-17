@@ -1,5 +1,8 @@
 ### 상점의 주문 조회
-GET http://localhost:40001/apis/orders?storeId=1
+GET http://localhost:40001/apis/orders?storeId=7&queryBaseDate=2023-12-17
+
+### 주문 ID로 주문 조회
+GET http://localhost:40001/apis/order-ids?storeId=7&orderIds=1,2
 
 ### 주문 상세 정보
-GET http://localhost:40001/apis/orders/7
+GET http://localhost:40001/apis/orders/1

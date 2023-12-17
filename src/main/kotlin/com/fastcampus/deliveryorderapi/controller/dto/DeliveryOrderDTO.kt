@@ -17,7 +17,7 @@ data class DeliveryOrderDTO(
         fun of(order: Order): DeliveryOrderDTO {
             return DeliveryOrderDTO(
                 orderId = order.orderId,
-                orderShortenId = "",
+                orderShortenId = order.orderShortenId,
                 orderStatus = order.orderStatus,
                 storeId = order.storeId,
                 customerId = order.customerId,

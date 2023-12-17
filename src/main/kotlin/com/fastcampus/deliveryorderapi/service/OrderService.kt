@@ -6,6 +6,7 @@ import com.fastcampus.deliveryorderapi.exception.NotFoundException
 import com.fastcampus.deliveryorderapi.repository.order.OrderRepository
 import com.fastcampus.deliveryorderapi.repository.orderitem.OrderItemRepository
 import org.springframework.stereotype.Service
+import java.time.OffsetDateTime
 
 @Service
 class OrderService(
@@ -48,5 +49,44 @@ class OrderService(
             totalAmount = order.totalAmount,
             orderItems = orderItemDTOS,
         )
+    }
+
+    fun findAll(
+        storeId: Long,
+        queryBaseDate: OffsetDateTime,
+    ): List<DeliveryOrderDTO> {
+
+        val orders = this.orderRepository.findAllBy(storeId, queryBaseDate, queryBaseDate.plusDays(1))
+
+        val orderIds = orders.map { it.orderId }
+        val orderItemMenus = orderItemRepository.findAllByOrderIdIn(orderIds)
+
+        val orderItemDTOs = orderItemMenus.map { OrderItemDTO.of(it) }
+        val orderItemMap = orderItemDTOs.groupBy { it.orderId }
+        val deliveryOrderDTOList = orders.map {
+            DeliveryOrderDTO.of(it)
+        }
+        deliveryOrderDTOList
+            .filter { orderItemMap.containsKey(it.orderId) }
+            .forEach { it.orderItems = orderItemMap[it.orderId] ?: emptyList() }
+
+        return deliveryOrderDTOList
+    }
+
+    fun findByIds(orderIds: List<Long>): List<DeliveryOrderDTO> {
+        val orders = this.orderRepository.findAllByOrderIdIn(orderIds)
+        val orderIds = orders.map { it.orderId }
+        val orderItemMenus = orderItemRepository.findAllByOrderIdIn(orderIds)
+
+        val orderItemDTOs = orderItemMenus.map { OrderItemDTO.of(it) }
+        val orderItemMap = orderItemDTOs.groupBy { it.orderId }
+        val deliveryOrderDTOList = orders.map {
+            DeliveryOrderDTO.of(it)
+        }
+        deliveryOrderDTOList
+            .filter { orderItemMap.containsKey(it.orderId) }
+            .forEach { it.orderItems = orderItemMap[it.orderId] ?: emptyList() }
+
+        return deliveryOrderDTOList
     }
 }

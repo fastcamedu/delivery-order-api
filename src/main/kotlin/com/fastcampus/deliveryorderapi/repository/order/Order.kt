@@ -13,7 +13,7 @@ import jakarta.persistence.Table
 import java.math.BigDecimal
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", schema = "food_delivery")
 class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
